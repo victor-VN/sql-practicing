@@ -158,3 +158,100 @@ SELECT * FROM account WHERE open_date BETWEEN '2002-01-01' AND '2002-12-31';
 #Construct a query that finds all nonbusiness customers whose last name contains an
 #a in the second position and an e anywhere after the a.
 SELECT * FROM individual WHERE lname LIKE '_a%e%';
+
+
+#Exercise 5-1
+#Fill in the blanks (denoted by <#>) for the following query to obtain the results that
+#follow:
+#mysql> SELECT e.emp_id, e.fname, e.lname, b.name
+#-> FROM employee e INNER JOIN <1> b
+#-> ON e.assigned_branch_id = b.<2>;
+#+--------+----------+-----------+---------------+
+#| emp_id | fname | lname | name |
+#--------+----------+-----------+---------------+
+#| 1 | Michael | Smith | Headquarters |
+#| 2 | Susan | Barker | Headquarters |
+#| 3 | Robert | Tyler | Headquarters |
+#| 4 | Susan | Hawthorne | Headquarters |
+#Test Your Knowledge | 97
+#D l d t W B k C
+#| 5 | John | Gooding | Headquarters |
+#| 6 | Helen | Fleming | Headquarters |
+#| 7 | Chris | Tucker | Headquarters |
+#| 8 | Sarah | Parker | Headquarters |
+#| 9 | Jane | Grossman | Headquarters |
+#| 10 | Paula | Roberts | Woburn Branch |
+#| 11 | Thomas | Ziegler | Woburn Branch |
+#| 12 | Samantha | Jameson | Woburn Branch |
+#| 13 | John | Blake | Quincy Branch |
+#| 14 | Cindy | Mason | Quincy Branch |
+#| 15 | Frank | Portman | Quincy Branch |
+#| 16 | Theresa | Markham | So. NH Branch |
+#| 17 | Beth | Fowler | So. NH Branch |
+#| 18 | Rick | Tulman | So. NH Branch |
+#+--------+----------+-----------+---------------+
+#18 rows in set (0.03 sec)
+
+SELECT e.emp_id, e.fname, e.lname, b.name FROM employee e INNER JOIN branch b ON e.assigned_branch_id = b.branch_id;
+
+#Exercise 5-2
+#Write a query that returns the account ID for each nonbusiness customer
+#(customer.cust_type_cd = 'I') with the customer’s federal ID (customer.fed_id) and
+#the name of the product on which the account is based (product.name).
+
+SELECT a1.account_id, c.fed_id, p.name FROM customer c 
+INNER JOIN account a1 
+ON a1.cust_id = c.cust_id 
+INNER JOIN product p 
+ON a1.product_cd = p.product_cd 
+WHERE c.cust_type_cd = 'I';
+
+#+------------+-------------+------------------------+
+#| account_id | fed_id      | name                   |
+#+------------+-------------+------------------------+
+#|          1 | 111-11-1111 | checking account       |
+#|          2 | 111-11-1111 | savings account        |
+#|          3 | 111-11-1111 | certificate of deposit |
+#|          4 | 222-22-2222 | checking account       |
+#|          5 | 222-22-2222 | savings account        |
+#|          7 | 333-33-3333 | checking account       |
+#|          8 | 333-33-3333 | money market account   |
+#|         10 | 444-44-4444 | checking account       |
+#|         11 | 444-44-4444 | savings account        |
+#|         12 | 444-44-4444 | money market account   |
+#|         13 | 555-55-5555 | checking account       |
+#|         14 | 666-66-6666 | checking account       |
+#|         15 | 666-66-6666 | certificate of deposit |
+#|         17 | 777-77-7777 | certificate of deposit |
+#|         18 | 888-88-8888 | checking account       |
+#|         19 | 888-88-8888 | savings account        |
+#|         21 | 999-99-9999 | checking account       |
+#|         22 | 999-99-9999 | money market account   |
+#|         23 | 999-99-9999 | certificate of deposit |
+#+------------+-------------+------------------------+
+
+
+#Exercise 5-3
+#Construct a query that finds all employees whose supervisor is assigned to a different
+#department. Retrieve the employees’ ID, first name, and last name.
+
+SELECT e.emp_id, e.fname, e.lname FROM employee e 
+INNER JOIN employee e_mgr  
+ON e.superior_emp_id = e_mgr.emp_id 
+AND e.dept_id != e_mgr.dept_id;
+
+#+--------+-------+-----------+
+#| emp_id | fname | lname     |
+#+--------+-------+-----------+
+#|      4 | Susan | Hawthorne |
+#|      5 | John  | Gooding   |
+#+--------+-------+-----------+
+
+
+
+
+
+
+
+
+
