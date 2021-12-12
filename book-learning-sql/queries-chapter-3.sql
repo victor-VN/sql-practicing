@@ -346,3 +346,38 @@ ORDER BY lname;
 #| Thomas   | Ziegler   |
 #+----------+-----------+
 #27 rows in set (0.00 sec)
+
+
+#Exercise 7-1
+#Write a query that returns the 17th through 25th characters of the string 'Please find
+#the substring in this string'.
+SELECT SUBSTRING('Please find the substring in this string', 17, 25);
+
+#+---------------------------------------------------------------+
+#| SUBSTRING('Please find the substring in this string', 17, 9) |
+#+---------------------------------------------------------------+
+#| substring                                    |
+#+---------------------------------------------------------------+
+
+
+#Exercise 7-2
+#Write a query that returns the absolute value and sign (−1, 0, or 1) of the number −25.
+#76823. Also return the number rounded to the nearest hundredth.
+SELECT ABS(-25.76823), SIGN(-25.76823), ROUND(-25.76823, 2);
+
+#+----------------+-----------------+---------------------+
+#| ABS(-25.76823) | SIGN(-25.76823) | ROUND(-25.76823, 2) |
+#+----------------+-----------------+---------------------+
+#| 25.76823 | −1 | −25.77 |
+#+----------------+-----------------+---------------------+
+
+
+#Exercise 7-3
+#Write a query to return just the month portion of the current date.
+SELECT EXTRACT(MONTH FROM CURRENT_DATE);
+
+#+----------------------------------+
+#| EXTRACT(MONTH FROM CURRENT_DATE) |
+#+----------------------------------+
+#|                               12 |
+#+----------------------------------+
