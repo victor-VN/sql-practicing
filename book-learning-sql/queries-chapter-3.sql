@@ -381,3 +381,89 @@ SELECT EXTRACT(MONTH FROM CURRENT_DATE);
 #+----------------------------------+
 #|                               12 |
 #+----------------------------------+
+
+
+#Exercise 8-1
+#Construct a query that counts the number of rows in the account table.
+SELECT COUNT(*) FROM account;
+
+#+----------+           
+#| COUNT(*) |           
+#+----------+           
+#|       72 |           
+#+----------+           
+#1 row in set (0.01 sec)
+
+#Exercise 8-2
+#Modify your query from Exercise 8-1 to count the number of accounts held by each
+#customer. Show the customer ID and the number of accounts for each customer.
+SELECT cust_id, COUNT(*) how_many FROM account GROUP BY (cust_id);
+
+#+---------+----------+
+#| cust_id | how_many |
+#+---------+----------+
+#|       1 |        6 |
+#|       2 |        4 |
+#|       3 |        4 |
+#|       4 |        6 |
+#|       5 |        2 |
+#|       6 |        4 |
+#|       7 |        2 |
+#|       8 |        4 |
+#|       9 |        6 |
+#|      10 |        4 |
+#|      11 |        2 |
+#|      12 |        2 |
+#|      13 |        2 |
+#|      14 |        3 |
+#|      15 |        2 |
+#|      16 |        2 |
+#|      17 |        3 |
+#|      18 |        1 |
+#|      19 |        2 |
+#|      20 |        1 |
+#|      21 |        2 |
+#|      22 |        3 |
+#|      23 |        2 |
+#|      24 |        1 |
+#|      25 |        1 |
+#|      26 |        1 |
+#+---------+----------+
+#26 rows in set (0.01 sec)
+
+
+#Exercise 8-3
+#Modify your query from Exercise 8-2 to include only those customers having at least
+#two accounts.
+SELECT cust_id, COUNT(*) how_many FROM account GROUP BY (cust_id) HAVING COUNT(*) >= 2;
+
+#+---------+----------+   
+#| cust_id | how_many |   
+#+---------+----------+   
+#|       1 |        6 |   
+#|       2 |        4 |   
+#|       3 |        4 |   
+#|       4 |        6 |   
+#|       5 |        2 |   
+#|       6 |        4 |   
+#|       7 |        2 |   
+#|       8 |        4 |   
+#|       9 |        6 |   
+#|      10 |        4 |   
+#|      11 |        2 |   
+#|      12 |        2 |   
+#|      13 |        2 |   
+#|      14 |        3 |   
+#|      15 |        2 |   
+#|      16 |        2 |   
+#|      17 |        3 |   
+#|      19 |        2 |   
+#|      21 |        2 |   
+#|      22 |        3 |   
+#|      23 |        2 |   
+#+---------+----------+   
+#21 rows in set (0.00 sec)
+
+#Exercise 8-4 (Extra Credit)
+#Find the total available balance by product and branch where there is more than one
+#account per product and branch. Order the results by total balance (highest to lowest).
