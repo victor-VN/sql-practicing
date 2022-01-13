@@ -467,3 +467,138 @@ SELECT cust_id, COUNT(*) how_many FROM account GROUP BY (cust_id) HAVING COUNT(*
 #Exercise 8-4 (Extra Credit)
 #Find the total available balance by product and branch where there is more than one
 #account per product and branch. Order the results by total balance (highest to lowest).
+
+
+#Exercise 9-1
+#Construct a query against the account table that uses a filter condition with a noncorrelated
+#subquery against the product table to find all loan accounts (product.prod
+#uct_type_cd = 'LOAN'). Retrieve the account ID, product code, customer ID, and available
+#balance.
+
+SELECT account_id, product_cd, cust_id, avail_balance 
+FROM account 
+WHERE product_cd IN (SELECT product_cd FROM product WHERE product_type_cd = 'LOAN');
+
+#+------------+------------+---------+---------------+
+#| account_id | product_cd | cust_id | avail_balance |
+#+------------+------------+---------+---------------+
+#|         25 | BUS        |      10 |          0.00 |
+#|         27 | BUS        |      11 |       9345.55 |
+#|         85 | BUS        |      10 |          0.00 |
+#|         87 | BUS        |      23 |          0.00 |
+#|         92 | BUS        |      11 |       9345.55 |
+#|         93 | BUS        |      24 |       9345.55 |
+#|         29 | SBL        |      13 |      50000.00 |
+#|         98 | SBL        |      13 |      50000.00 |
+#|         99 | SBL        |      26 |      50000.00 |
+#+------------+------------+---------+---------------+
+#9 rows in set (0.01 sec)
+
+
+#Exercise 9-2
+#Rework the query from Exercise 9-1 using a correlated subquery against the product
+#table to achieve the same results.
+
+SELECT a.account_id, a.product_cd, a.cust_id, a.avail_balance
+FROM account a
+WHERE EXISTS (SELECT 1
+FROM product p
+WHERE p.product_cd = a.product_cd
+AND p.product_type_cd = 'LOAN');
+
+#+------------+------------+---------+---------------+
+#| account_id | product_cd | cust_id | avail_balance |
+#+------------+------------+---------+---------------+
+#|         25 | BUS        |      10 |          0.00 |
+#|         27 | BUS        |      11 |       9345.55 |
+#|         85 | BUS        |      10 |          0.00 |
+#|         87 | BUS        |      23 |          0.00 |
+#|         92 | BUS        |      11 |       9345.55 |
+#|         93 | BUS        |      24 |       9345.55 |
+#|         29 | SBL        |      13 |      50000.00 |
+#|         98 | SBL        |      13 |      50000.00 |
+#|         99 | SBL        |      26 |      50000.00 |
+#+------------+------------+---------+---------------+
+#9 rows in set (0.01 sec)
+
+#Exercise 9-3
+#Join the following query to the employee table to show the experience level of each
+#employee:
+#SELECT 'trainee' name, '2004-01-01' start_dt, '2005-12-31' end_dt
+#UNION ALL
+#SELECT 'worker' name, '2002-01-01' start_dt, '2003-12-31' end_dt
+#UNION ALL
+#SELECT 'mentor' name, '2000-01-01' start_dt, '2001-12-31' end_dt
+#Give the subquery the alias levels, and include the employee ID, first name, last name,
+#and experience level (levels.name). (Hint: build a join condition using an inequality
+#condition to determine into which level the employee.start_date column falls.)
+
+SELECT e.emp_id, e.fname, e.lname, levels.name
+FROM employee e INNER JOIN
+(SELECT 'trainee' name, '2004-01-01' start_dt, '2005-12-31' end_dt
+UNION ALL
+SELECT 'worker' name, '2002-01-01' start_dt, '2003-12-31' end_dt
+UNION ALL
+SELECT 'mentor' name, '2000-01-01' start_dt, '2001-12-31' end_dt) levels
+ON e.start_date BETWEEN levels.start_dt AND levels.end_dt;
+
+#+--------+----------+-----------+---------+
+#| emp_id | fname | lname | name |
+#+--------+----------+-----------+---------+
+#| 6 | Helen | Fleming | trainee |
+#| 7 | Chris | Tucker | trainee |
+#| 2 | Susan | Barker | worker |
+#| 4 | Susan | Hawthorne | worker |
+#| 5 | John | Gooding | worker |
+#| 8 | Sarah | Parker | worker |
+#| 9 | Jane | Grossman | worker |
+#| 10 | Paula | Roberts | worker |
+#| 12 | Samantha | Jameson | worker |
+#| 14 | Cindy | Mason | worker |
+#| 15 | Frank | Portman | worker |
+#| 17 | Beth | Fowler | worker |
+#| 18 | Rick | Tulman | worker |
+#| 1 | Michael | Smith | mentor |
+#| 3 | Robert | Tyler | mentor |
+#| 11 | Thomas | Ziegler | mentor |
+#| 13 | John | Blake | mentor |
+#| 16 | Theresa | Markham | mentor |
+#+--------+----------+-----------+---------+
+#18 rows in set (0.00 sec)
+
+
+#Exercise 9-4
+#Construct a query against the employee table that retrieves the employee ID, first name,
+#and last name, along with the names of the department and branch to which the employee
+#is assigned. Do not join any tables.
+
+
+SELECT e.emp_id, e.fname, e.lname,
+(SELECT d.name FROM department d
+WHERE d.dept_id = e.dept_id) dept_name,
+(SELECT b.name FROM branch b
+WHERE b.branch_id = e.assigned_branch_id) branch_name
+FROM employee e;
+
+#| emp_id | fname | lname | dept_name | branch_name |
+#+--------+----------+-----------+----------------+---------------+
+#| 1 | Michael | Smith | Administration | Headquarters |
+#| 2 | Susan | Barker | Administration | Headquarters |
+#| 3 | Robert | Tyler | Administration | Headquarters |
+#| 4 | Susan | Hawthorne | Operations | Headquarters |
+#| 5 | John | Gooding | Loans | Headquarters |
+#| 6 | Helen | Fleming | Operations | Headquarters |
+#| 7 | Chris | Tucker | Operations | Headquarters |
+#| 8 | Sarah | Parker | Operations | Headquarters |
+#| 9 | Jane | Grossman | Operations | Headquarters |
+#| 10 | Paula | Roberts | Operations | Woburn Branch |
+#| 11 | Thomas | Ziegler | Operations | Woburn Branch |
+#| 12 | Samantha | Jameson | Operations | Woburn Branch |
+#| 13 | John | Blake | Operations | Quincy Branch |
+#| 14 | Cindy | Mason | Operations | Quincy Branch |
+#| 15 | Frank | Portman | Operations | Quincy Branch |
+#| 16 | Theresa | Markham | Operations | So. NH Branch |
+#| 17 | Beth | Fowler | Operations | So. NH Branch |
+#| 18 | Rick | Tulman | Operations | So. NH Branch |
+#+--------+----------+-----------+----------------+---------------+
+#18 rows in set (0.12 sec)
