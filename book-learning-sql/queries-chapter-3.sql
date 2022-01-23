@@ -602,3 +602,258 @@ FROM employee e;
 #| 18 | Rick | Tulman | Operations | So. NH Branch |
 #+--------+----------+-----------+----------------+---------------+
 #18 rows in set (0.12 sec)
+
+
+
+#Exercise 10-1
+#Write a query that returns all product names along with the accounts based on that
+#product (use the product_cd column in the account table to link to the product table).
+#Include all products, even if no accounts have been opened for that product.
+
+SELECT p.name, a.account_id, a.status, a.avail_balance FROM product p LEFT OUTER JOIN account a ON a.product_cd = p.product_cd;
+
+#+-------------------------+------------+--------+---------------+
+#| name                    | account_id | status | avail_balance |
+#+-------------------------+------------+--------+---------------+
+#| auto loan               |       NULL | NULL   |          NULL |
+#| business line of credit |         25 | ACTIVE |          0.00 |
+#| business line of credit |         27 | ACTIVE |       9345.55 |
+#| certificate of deposit  |          3 | ACTIVE |       3000.00 |
+#| certificate of deposit  |         15 | ACTIVE |      10000.00 |
+#| certificate of deposit  |         17 | ACTIVE |       5000.00 |
+#| certificate of deposit  |         23 | ACTIVE |       1500.00 |
+#| checking account        |          1 | ACTIVE |       1057.75 |
+#| checking account        |          4 | ACTIVE |       2258.02 |
+#| checking account        |          7 | ACTIVE |       1057.75 |
+#| checking account        |         10 | ACTIVE |        534.12 |
+#| checking account        |         13 | ACTIVE |       2237.97 |
+#| checking account        |         14 | ACTIVE |        122.37 |
+#| checking account        |         18 | ACTIVE |       3487.19 |
+#| checking account        |         21 | ACTIVE |        125.67 |
+#| checking account        |         24 | ACTIVE |      23575.12 |
+#| checking account        |         28 | ACTIVE |      38552.05 |
+#| money market account    |          8 | ACTIVE |       2212.50 |
+#| money market account    |         12 | ACTIVE |       5487.09 |
+#| money market account    |         22 | ACTIVE |       9345.55 |
+#| home mortgage           |       NULL | NULL   |          NULL |
+#| savings account         |          2 | ACTIVE |        500.00 |
+#| savings account         |          5 | ACTIVE |        200.00 |
+#| savings account         |         11 | ACTIVE |        767.77 |
+#| savings account         |         19 | ACTIVE |        387.99 |
+#| small business loan     |         29 | ACTIVE |      50000.00 |
+#+-------------------------+------------+--------+---------------+
+#26 rows in set (0.00 sec)
+
+
+#Exercise 10-2
+#Reformulate your query from Exercise 10-1 to use the other outer join type (e.g., if you
+#used a left outer join in Exercise 10-1, use a right outer join this time) such that the
+#results are identical to Exercise 10-1.
+
+SELECT p.name, a.account_id, a.status, a.avail_balance FROM account a RIGHT OUTER JOIN product p ON a.product_cd = p.product_cd;
+
+#+-------------------------+------------+--------+---------------+
+#| name                    | account_id | status | avail_balance |
+#+-------------------------+------------+--------+---------------+
+#| auto loan               |       NULL | NULL   |          NULL |
+#| business line of credit |         25 | ACTIVE |          0.00 |
+#| business line of credit |         27 | ACTIVE |       9345.55 |
+#| certificate of deposit  |          3 | ACTIVE |       3000.00 |
+#| certificate of deposit  |         15 | ACTIVE |      10000.00 |
+#| certificate of deposit  |         17 | ACTIVE |       5000.00 |
+#| certificate of deposit  |         23 | ACTIVE |       1500.00 |
+#| checking account        |          1 | ACTIVE |       1057.75 |
+#| checking account        |          4 | ACTIVE |       2258.02 |
+#| checking account        |          7 | ACTIVE |       1057.75 |
+#| checking account        |         10 | ACTIVE |        534.12 |
+#| checking account        |         13 | ACTIVE |       2237.97 |
+#| checking account        |         14 | ACTIVE |        122.37 |
+#| checking account        |         18 | ACTIVE |       3487.19 |
+#| checking account        |         21 | ACTIVE |        125.67 |
+#| checking account        |         24 | ACTIVE |      23575.12 |
+#| checking account        |         28 | ACTIVE |      38552.05 |
+#| money market account    |          8 | ACTIVE |       2212.50 |
+#| money market account    |         12 | ACTIVE |       5487.09 |
+#| money market account    |         22 | ACTIVE |       9345.55 |
+#| home mortgage           |       NULL | NULL   |          NULL |
+#| savings account         |          2 | ACTIVE |        500.00 |
+#| savings account         |          5 | ACTIVE |        200.00 |
+#| savings account         |         11 | ACTIVE |        767.77 |
+#| savings account         |         19 | ACTIVE |        387.99 |
+#| small business loan     |         29 | ACTIVE |      50000.00 |
+#+-------------------------+------------+--------+---------------+
+#26 rows in set (0.00 sec)                                        
+
+
+#Exercise 10-3
+#Outer-join the account table to both the individual and business tables (via the
+#account.cust_id column) such that the result set contains one row per account. Columns
+#to include are account.account_id, account.product_cd, individual.fname,
+#individual.lname, and business.name
+
+SELECT a.account_id, a.product_cd, i.fname, i.lname, b.name 
+FROM account a LEFT OUTER JOIN individual i ON a.cust_id = i.cust_id 
+LEFT OUTER JOIN business b ON a.cust_id = b.cust_id;
+
+#+------------+------------+----------+---------+------------------------+
+#| account_id | product_cd | fname    | lname   | name                   |
+#+------------+------------+----------+---------+------------------------+
+#|          1 | CHK        | James    | Hadley  | NULL                   |
+#|          2 | SAV        | James    | Hadley  | NULL                   |
+#|          3 | CD         | James    | Hadley  | NULL                   |
+#|          4 | CHK        | Susan    | Tingley | NULL                   |
+#|          5 | SAV        | Susan    | Tingley | NULL                   |
+#|          7 | CHK        | Frank    | Tucker  | NULL                   |
+#|          8 | MM         | Frank    | Tucker  | NULL                   |
+#|         10 | CHK        | John     | Hayward | NULL                   |
+#|         11 | SAV        | John     | Hayward | NULL                   |
+#|         12 | MM         | John     | Hayward | NULL                   |
+#|         13 | CHK        | Charles  | Frasier | NULL                   |
+#|         14 | CHK        | John     | Spencer | NULL                   |
+#|         15 | CD         | John     | Spencer | NULL                   |
+#|         17 | CD         | Margaret | Young   | NULL                   |
+#|         18 | CHK        | Louis    | Blake   | NULL                   |
+#|         19 | SAV        | Louis    | Blake   | NULL                   |
+#|         21 | CHK        | Richard  | Farley  | NULL                   |
+#|         22 | MM         | Richard  | Farley  | NULL                   |
+#|         23 | CD         | Richard  | Farley  | NULL                   |
+#|         24 | CHK        | NULL     | NULL    | Chilton Engineering    |
+#|         25 | BUS        | NULL     | NULL    | Chilton Engineering    |
+#|         27 | BUS        | NULL     | NULL    | Northeast Cooling Inc. |
+#|         28 | CHK        | NULL     | NULL    | Superior Auto Body     |
+#|         29 | SBL        | NULL     | NULL    | AAA Insurance Inc.     |
+#+------------+------------+----------+---------+------------------------+
+#24 rows in set (0.00 sec)
+
+#Exercise 10-4 (Extra Credit)
+#Devise a query that will generate the set {1, 2, 3,..., 99, 100}. (Hint: use a cross join
+#with at least two from clause subqueries.)
+
+SELECT ones.num + tens.num FROM  
+(SELECT 1 num UNION ALL 
+	SELECT 2 num UNION ALL 
+	SELECT 3 num UNION ALL 
+	SELECT 4 num UNION ALL 
+	SELECT 5 num UNION ALL 
+	SELECT 6 num UNION ALL 
+	SELECT 7 num UNION ALL 
+	SELECT 8 num UNION ALL 
+	SELECT 9 num UNION ALL 
+	SELECT 10 num) ones 
+CROSS JOIN 
+(SELECT 0 num UNION ALL 
+	SELECT 10 num UNION ALL 
+	SELECT 20 num UNION ALL 
+	SELECT 30 num UNION ALL 
+	SELECT 40 num UNION ALL 
+	SELECT 50 num UNION ALL 
+	SELECT 60 num UNION ALL 
+	SELECT 70 num UNION ALL 
+	SELECT 80 num UNION ALL 
+	SELECT 90 num) tens;
+
++---------------------+   
+| ones.num + tens.num |   
++---------------------+   
+|                  10 |   
+|                   9 |   
+|                   8 |   
+|                   7 |   
+|                   6 |   
+|                   5 |   
+|                   4 |   
+|                   3 |   
+|                   2 |   
+|                   1 |   
+|                  20 |   
+|                  19 |   
+|                  18 |   
+|                  17 |   
+|                  16 |   
+|                  15 |   
+|                  14 |   
+|                  13 |   
+|                  12 |   
+|                  11 |   
+|                  30 |   
+|                  29 |   
+|                  28 |   
+|                  27 |   
+|                  26 |   
+|                  25 |   
+|                  24 |   
+|                  23 |   
+|                  22 |   
+|                  21 |   
+|                  40 |   
+|                  39 |   
+|                  38 |   
+|                  37 |   
+|                  36 |   
+|                  35 |   
+|                  34 |   
+|                  33 |   
+|                  32 |   
+|                  31 |   
+|                  50 |   
+|                  49 |   
+|                  48 |   
+|                  47 |   
+|                  46 |   
+|                  45 |   
+|                  44 |   
+|                  43 |   
+|                  42 |   
+|                  41 |   
+|                  60 |   
+|                  59 |   
+|                  58 |   
+|                  57 |   
+|                  56 |   
+|                  55 |   
+|                  54 |   
+|                  53 |   
+|                  52 |   
+|                  51 |   
+|                  70 |   
+|                  69 |   
+|                  68 |   
+|                  67 |   
+|                  66 |   
+|                  65 |   
+|                  64 |   
+|                  63 |   
+|                  62 |   
+|                  61 |   
+|                  80 |   
+|                  79 |   
+|                  78 |   
+|                  77 |   
+|                  76 |   
+|                  75 |   
+|                  74 |   
+|                  73 |   
+|                  72 |   
+|                  71 |   
+|                  90 |   
+|                  89 |   
+|                  88 |   
+|                  87 |   
+|                  86 |   
+|                  85 |   
+|                  84 |   
+|                  83 |   
+|                  82 |   
+|                  81 |   
+|                 100 |   
+|                  99 |   
+|                  98 |   
+|                  97 |   
+|                  96 |   
+|                  95 |   
+|                  94 |   
+|                  93 |   
+|                  92 |   
+|                  91 |   
++---------------------+   
+100 rows in set (0.00 sec)
