@@ -752,108 +752,192 @@ CROSS JOIN
 	SELECT 80 num UNION ALL 
 	SELECT 90 num) tens;
 
-+---------------------+   
-| ones.num + tens.num |   
-+---------------------+   
-|                  10 |   
-|                   9 |   
-|                   8 |   
-|                   7 |   
-|                   6 |   
-|                   5 |   
-|                   4 |   
-|                   3 |   
-|                   2 |   
-|                   1 |   
-|                  20 |   
-|                  19 |   
-|                  18 |   
-|                  17 |   
-|                  16 |   
-|                  15 |   
-|                  14 |   
-|                  13 |   
-|                  12 |   
-|                  11 |   
-|                  30 |   
-|                  29 |   
-|                  28 |   
-|                  27 |   
-|                  26 |   
-|                  25 |   
-|                  24 |   
-|                  23 |   
-|                  22 |   
-|                  21 |   
-|                  40 |   
-|                  39 |   
-|                  38 |   
-|                  37 |   
-|                  36 |   
-|                  35 |   
-|                  34 |   
-|                  33 |   
-|                  32 |   
-|                  31 |   
-|                  50 |   
-|                  49 |   
-|                  48 |   
-|                  47 |   
-|                  46 |   
-|                  45 |   
-|                  44 |   
-|                  43 |   
-|                  42 |   
-|                  41 |   
-|                  60 |   
-|                  59 |   
-|                  58 |   
-|                  57 |   
-|                  56 |   
-|                  55 |   
-|                  54 |   
-|                  53 |   
-|                  52 |   
-|                  51 |   
-|                  70 |   
-|                  69 |   
-|                  68 |   
-|                  67 |   
-|                  66 |   
-|                  65 |   
-|                  64 |   
-|                  63 |   
-|                  62 |   
-|                  61 |   
-|                  80 |   
-|                  79 |   
-|                  78 |   
-|                  77 |   
-|                  76 |   
-|                  75 |   
-|                  74 |   
-|                  73 |   
-|                  72 |   
-|                  71 |   
-|                  90 |   
-|                  89 |   
-|                  88 |   
-|                  87 |   
-|                  86 |   
-|                  85 |   
-|                  84 |   
-|                  83 |   
-|                  82 |   
-|                  81 |   
-|                 100 |   
-|                  99 |   
-|                  98 |   
-|                  97 |   
-|                  96 |   
-|                  95 |   
-|                  94 |   
-|                  93 |   
-|                  92 |   
-|                  91 |   
-+---------------------+   
-100 rows in set (0.00 sec)
+#+---------------------+   
+#| ones.num + tens.num |   
+#+---------------------+   
+#|                  10 |   
+#                   9 |   
+#|                   8 |   
+#|                   7 |   
+#|                   6 |   
+#|                   5 |   
+#|                   4 |   
+#|                   3 |   
+#|                   2 |   
+#|                   1 |   
+#|                  20 |   
+#|                  19 |   
+#|                  18 |   
+#|                  17 |   
+#|                  16 |   
+#|                  15 |   
+#|                  14 |   
+#|                  13 |   
+#|                  12 |   
+#|                  11 |   
+#|                  30 |   
+#|                  29 |   
+#|                  28 |   
+#|                  27 |   
+#|                  26 |   
+#|                  25 |   
+#|                  24 |   
+#|                  23 |   
+#|                  22 |   
+#|                  21 |   
+#|                  40 |   
+#|                  39 |   
+#|                  38 |   
+#|                  37 |   
+#|                  36 |   
+#|                  35 |   
+#|                  34 |   
+#|                  33 |   
+#|                  32 |   
+#|                  31 |   
+#|                  50 |   
+#|                  49 |   
+#|                  48 |   
+#|                  47 |   
+#|                  46 |   
+#|                  45 |   
+#|                  44 |   
+#|                  43 |   
+#|                  42 |   
+#|                  41 |   
+#|                  60 |   
+#|                  59 |   
+#|                  58 |   
+#|                  57 |   
+#|                  56 |   
+#|                  55 |   
+#|                  54 |   
+#|                  53 |   
+#|                  52 |   
+#|                  51 |   
+#|                  70 |   
+#|                  69 |   
+#|                  68 |   
+#|                  67 |   
+#|                  66 |   
+#|                  65 |   
+#|                  64 |   
+#|                  63 |   
+#|                  62 |   
+#|                  61 |   
+#|                  80 |   
+#|                  79 |   
+#|                  78 |   
+#|                  77 |   
+#|                  76 |   
+#|                  75 |   
+#|                  74 |   
+#|                  73 |   
+#|                  72 |   
+#|                  71 |   
+#|                  90 |   
+#|                  89 |   
+#|                  88 |   
+#|                  87 |   
+#|                  86 |   
+#|                  85 |   
+#|                  84 |   
+#|                  83 |   
+#|                  82 |   
+#|                  81 |   
+#|                 100 |   
+#|                  99 |   
+#|                  98 |   
+#|                  97 |   
+#|                  96 |   
+#|                  95 |   
+#|                  94 |   
+#|                  93 |   
+#|                  92 |   
+#|                  91 |   
+#+---------------------+   
+#100 rows in set (0.00 sec)
+
+
+#Exercise 11-1
+#Rewrite the following query, which uses a simple case expression, so that the same
+#results are achieved using a searched case expression. Try to use as few when clauses as
+#possible.
+
+SELECT emp_id, 
+	CASE 
+		WHEN title IN ("Teller", "Head Teller", "Operations Manager") THEN "Operations" 
+		WHEN title IN ("President", "Vice President", "Treasurer", "Load Manager") THEN "Manager" 
+		ELSE "Unknown" 
+	END 
+FROM employee;
+
+#+--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+#|      1 | Manager
+#                                                 |
+#|      2 | Manager
+#                                                 |
+#|      3 | Manager
+#                                                 |
+#|      4 | Operations
+#                                                 |
+#|      5 | Unknown
+#                                                 |
+#|      6 | Operations
+#                                                 |
+#|      7 | Operations
+#                                                 |
+#|      8 | Operations
+#                                                 |
+#|      9 | Operations
+#                                                 |
+#|     10 | Operations
+#                                                 |
+#|     11 | Operations
+#                                                 |
+#|     12 | Operations
+#                                                 |
+#|     13 | Operations
+#                                                 |
+#|     14 | Operations
+#                                                 |
+#|     15 | Operations
+#                                                 |
+#|     16 | Operations
+#                                                 |
+#|     17 | Operations
+#                                                 |
+#|     18 | Operations
+#                                                 |
+#+--------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+#18 rows in set (0.00 sec)
+
+#Exercise 11-2
+#Rewrite the following query so that the result set contains a single row with four columns
+#(one for each branch). Name the four columns branch_1 through branch_4.
+
+#mysql> SELECT open_branch_id, COUNT(*)
+#-> FROM account
+#-> GROUP BY open_branch_id;
+#+----------------+----------+
+#| open_branch_id | COUNT(*) |
+#+----------------+----------+
+#| 1 | 8 |
+#| 2 | 7 |
+#| 3 | 3 |
+#| 4 | 6 |
+#+----------------+----------+
+#4 rows in set (0.00 sec)
+
+
+SELECT
+	SUM(CASE WHEN open_branch_id = 1 THEN 1 ELSE 0 END) branch_1,
+	SUM(CASE WHEN open_branch_id = 2 THEN 1 ELSE 0 END) branch_2,
+	SUM(CASE WHEN open_branch_id = 3 THEN 1 ELSE 0 END) branch_3,
+	SUM(CASE WHEN open_branch_id = 4 THEN 1 ELSE 0 END) branch_4
+FROM account;
+#+----------+----------+----------+----------+
+#| branch_1 | branch_2 | branch_3 | branch_4 |
+#+----------+----------+----------+----------+
+#| 8       | 7        | 3        | 6        |
+#+----------+----------+----------+----------+
